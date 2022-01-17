@@ -1,2 +1,2 @@
 # Reprogramming_meta
-This is a repository for code of reprogramming meta-analysis research project
+Repo for cellular reprogramming meta analysis
