@@ -4,7 +4,7 @@
 #' @param orderCol Reorder the columns (default=T)
 #' @param orderRow Reorder the rows (default=T)
 #' @param dendroLineSize Size of the dendrogram lines (default=0.5)
-#' @param fontSize Font size (default=20)
+#' @param fontsize Font size (default=20)
 #' @param colorPalette Color palette (default='Spectral')
 #' @param revColors Invert color scale
 #' @param scaleName Name of the colorscale (default='value')
@@ -18,7 +18,7 @@ ggheatmap <- function(data,
     label_size=1.2, value_size=0.8, title="Spearman correlation",
     measure="logFC", criterion="FDR",
     orderCol = T, orderRow = T, dendroLineSize = 0.5, 
-    fontSize = 20, color = "Spectral", scaleName = "value", distMethod = "euclidean", 
+    fontsize = 20, color = "Spectral", scaleName = "value", distMethod = "euclidean", 
     clustMethod = "complete", revColors=F, scale_name="Spearman \ncorrelation ") {
     
     names(data) <- gsub("\\$", ":", names(data))
@@ -114,33 +114,39 @@ ggheatmap <- function(data,
         data_m$variable <- factor(data_m$variable, levels = ordered_col_names)
     }
     
-    heat_plot <- ggplot2::ggplot(data_m, ggplot2::aes(x = variable, y = rowname, fill = value)) + 
-                ggplot2::geom_tile(colour = "black", size=0.) + 
-                ggplot2::geom_text(aes(label=value.pass)) +
-                ggplot2::theme_minimal() + 
-                ggplot2::theme(
-                            axis.line = ggplot2::element_line(size = 0),
-                            text = ggplot2::element_text(size = fontSize),
-                            axis.text.x = element_text(angle = 45, hjust = 1, vjust=1),
-                            legend.position="top", legend.key.width = unit(2.5, "cm"),
-                            plot.margin = unit(c(1, 0, 0, 1.5), "cm")) + 
-                #ggplot2::guides(fill=guide_legend(title="Spearman correlation")) +
-                ggplot2::scale_y_discrete(position = "right") + 
-                ggplot2::xlab("") + 
-                ggplot2::ylab("") + 
-                ggplot2::scale_fill_gradient2(name=scale_name, 
-                        high="red2", low="blue2", mid='white', 
-                        limits=c(-1, 1), 
-                        midpoint=0)
+    heat_plot <- ggplot(data_m, aes(x = variable, y = rowname, fill = value)) + 
+                    geom_tile(colour = "black", size=0.) + 
+                    #geom_text(aes(label=value.pass)) +
+                    theme_minimal() + 
+                    theme(
+                        axis.line = element_line(size = 0),
+                        text = element_text(size = fontsize),
+                        axis.text.x = element_text(angle = 45, hjust = 1, vjust=1),
+                        legend.position="top", 
+                        legend.key.width = unit(2.5, "cm"),
+                        legend.title = element_text(size = fontsize, face='bold'),
+                        plot.margin = unit(c(1, 0, 0, 1.5), "cm"),
+                        panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
+                        panel.grid.major = element_blank(),
+                        panel.grid.minor = element_blank(),
+                        ) + 
+                    #guides(fill=guide_legend(title="Spearman correlation", size=fontsize)) +
+                    scale_y_discrete(position = "right") + 
+                    xlab("") + 
+                    ylab("") + 
+                    scale_fill_gradient2(name=scale_name, 
+                            high="red2", low="blue2", mid='white', 
+                            limits=c(-1, 1), 
+                            midpoint=0)
     
     final_plot <- heat_plot
 
     if (orderRow) {
         dendro_data_row <- ggdendro::dendro_data(dd.row, type = "rectangle")
         dendro_row <- cowplot::axis_canvas(heat_plot, axis = "y", coord_flip = TRUE) + 
-                          ggplot2::geom_segment(data = ggdendro::segment(dendro_data_row), ggplot2::aes(y = -y, 
+                          geom_segment(data = ggdendro::segment(dendro_data_row), aes(y = -y, 
 	                  x = x, xend = xend, yend = -yend), size = dendroLineSize) + 
-                          ggplot2::coord_flip()
+                          coord_flip()
         final_plot <- cowplot::insert_yaxis_grob(final_plot, dendro_row, grid::unit(0.2, 
                           "null"), position = "left")
     }
@@ -148,7 +154,7 @@ ggheatmap <- function(data,
     # if (orderCol) {
     #     dendro_data_col <- ggdendro::dendro_data(dd.col, type = "rectangle")
     #     dendro_col <- cowplot::axis_canvas(heat_plot, axis = "x") + 
-	# 	      ggplot2::geom_segment(data = ggdendro::segment(dendro_data_col), ggplot2::aes(x = x, y = y, xend = xend, yend = yend), size = dendroLineSize)
+	# 	      geom_segment(data = ggdendro::segment(dendro_data_col), aes(x = x, y = y, xend = xend, yend = yend), size = dendroLineSize)
     #     final_plot <- cowplot::insert_xaxis_grob(final_plot, dendro_col, grid::unit(0.2, 
     #                       "null"), position = "top")
     # }
