@@ -22,6 +22,7 @@ ggheatmap <- function(data,
     clustMethod = "complete", revColors=F, scale_name="Spearman \ncorrelation ") {
     
     names(data) <- gsub("\\$", ":", names(data))
+    names(data) <- gsub("_", " ", names(data))
     names(data) <- gsub("\\+dox_mef", "", names(data))
 
     #type = {full_intersection, pairwise_top}

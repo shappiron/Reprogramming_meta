@@ -1,5 +1,5 @@
 #
-gene_barplot <- function(combined_full_rep, gene_interest){
+gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
     #combine list of signatures into list of dataframes where each dataframe is the same column type
     SL <- list()
     cols <- c('logFC', 'SE', 'P.Value', 'FDR')
@@ -44,21 +44,21 @@ gene_barplot <- function(combined_full_rep, gene_interest){
     #plot
     #suppressMessages(library(ggrepel))
     g <- ggplot(melter, aes(x=Signature, y=Coef, fill=Type))+ 
-            geom_bar(stat="identity") +
+            geom_bar(stat="identity", colour="black") +
             facet_wrap(~Symbol, ncol=1, scales = "free_y", dir="v") + 
             expand_limits(y=c(-3, 3))+
             geom_text(aes(label=Star, vjust=melter$Vjust, hjust=0.5), fontface='bold', size=7)+
             geom_errorbar(aes(ymin=Coef-SE, ymax=Coef+SE), width=0.18) + 
-            theme(axis.text=element_text(size=14, angle=45, hjust=1),
+            theme(axis.text=element_text(size=fontsize, angle=45, hjust=1),
                     strip.background = element_blank(),
                     strip.placement = 'inside',
-                    strip.text = element_text(colour = 'black', size=16, face="bold", hjust = 0.5),     
-                    axis.title=element_text(size=18, face="bold"), 
-                    plot.title=element_text(size = 20, face = "bold"),
-                    legend.title=element_text(size=16, face = "bold"),
-                    legend.text=element_text(size=14),
+                    strip.text = element_text(colour = 'black', size=fontsize, face="bold", hjust = 0.5),     
+                    axis.title=element_text(size=fontsize, face="bold"), 
+                    plot.title=element_text(size=fontsize, face = "bold"),
+                    legend.title=element_text(size=fontsize, face = "bold"),
+                    legend.text=element_text(size=fontsize),
                     legend.position="top",
-                    panel.background = element_rect(fill='white', colour='black', size=1.1, linetype='solid'),
+                    panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     plot.margin = unit(c(0.5,0.5,0.5,0.), "cm")) +
