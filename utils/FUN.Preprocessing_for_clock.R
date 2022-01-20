@@ -63,10 +63,10 @@ preprocessing_for_clock <- function(exprs_data,na_fill_data,
   if (length(missing_genes)>0){
     for (temp_gene in missing_genes){
       exprs_norm_final[which(is.na(exprs_norm_final[,temp_gene])),temp_gene] <- na_fill_data[temp_gene,"Norm_value"]
-      exprs_scale_final[which(is.na(exprs_scale_final[,temp_gene])),temp_gene] <- na_fill_data[temp_gene,"Scaled_value"]
+      #exprs_scale_final[which(is.na(exprs_scale_final[,temp_gene])),temp_gene] <- na_fill_data[temp_gene,"Scaled_value"]
     }
   }
-
-  return(list(Scaled_data = exprs_scale_final,
-              Normal_data = exprs_norm_final))
+    return(exprs_norm_final)
+  # return(list(Scaled_data = exprs_scale_final,
+  #             Normal_data = exprs_norm_final))
 }
