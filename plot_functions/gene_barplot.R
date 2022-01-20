@@ -45,6 +45,7 @@ gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
     #suppressMessages(library(ggrepel))
     g <- ggplot(melter, aes(x=Signature, y=Coef, fill=Type))+ 
             geom_bar(stat="identity", colour="black") +
+            geom_hline(yintercept=0, linetype="solid", color = "black", size=0.4, alpha=0.8)+
             facet_wrap(~Symbol, ncol=1, scales = "free_y", dir="v") + 
             expand_limits(y=c(-3, 3))+
             geom_text(aes(label=Star, vjust=melter$Vjust, hjust=0.5), fontface='bold', size=7)+

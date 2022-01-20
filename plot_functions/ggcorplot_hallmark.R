@@ -4,7 +4,7 @@
 #' @param orderCol Reorder the columns (default=T)
 #' @param orderRow Reorder the rows (default=T)
 #' @param dendroLineSize Size of the dendrogram lines (default=0.5)
-#' @param fontSize Font size (default=20)
+#' @param fontsize Font size (default=20)
 #' @param colorPalette Color palette (default='Spectral')
 #' @param revColors Invert color scale
 #' @param scaleName Name of the colorscale (default='value')
@@ -17,7 +17,7 @@ ggheatmap_hallmark <- function(data,
     type='full_intersection', method='spearman', top=500, pvplot=F,
     label_size=1.2, value_size=0.8, title="Spearman correlation",
     measure="logFC", criterion="FDR",
-    orderCol = T, orderRow = T, dendroLineSize = 0.5, 
+    orderCol = T, orderRow = T, dendroLineSize = 0.5, fontsize=18,
     color = "Spectral", scaleName = "value", distMethod = "euclidean", 
     clustMethod = "complete", revColors=F, scale_name="Spearman \ncorrelation ") {
     
@@ -113,16 +113,16 @@ ggheatmap_hallmark <- function(data,
     
     gA <- ggplot(data_m, aes(x = variable, y = rowname, fill = value)) + 
                 geom_tile(colour = "black", size=0.0) + 
-                geom_text(aes(label=value.pass)) +
-                theme_minimal() + 
+                #geom_text(aes(label=value.pass)) +
+                #theme_minimal() + 
                 theme(
-                    axis.text.y = element_text(size = 14),
-                    #panel.background = element_rect(fill='white', colour='black', size=1.0, linetype='solid'),
+                    axis.text.y = element_text(size = fontsize, colour='black'),
+                    panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     axis.text.x = element_blank(),
-                    legend.title=element_text(size=16, face = "bold"),
-                    legend.text=element_text(size=14),
+                    legend.title=element_text(size=fontsize, face = "bold"),
+                    legend.text=element_text(size=fontsize),
                     legend.position="top", 
                     legend.key.width = unit(2.5, "cm"),
                     plot.margin = unit(c(0., 0, -0.6, 0.5), "cm")) + 

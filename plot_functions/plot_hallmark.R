@@ -1,5 +1,5 @@
 #plot hallmark ontologies sorted by dendrogram
-plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c()){
+plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18){
     tmp <- gsea[[1]]
     #terms_list <- rownames(tmp[grepl("HALLMARK", rownames(tmp)),])
     terms_list <- c('HALLMARK_ANDROGEN_RESPONSE',
@@ -121,14 +121,14 @@ plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c()){
         # scale_x_discrete(expand = c(0, 0)) + 
         # scale_y_discrete(expand = c(0, 0)) +
         scale_y_discrete(position='right') +
-        theme_minimal() + 
+        #theme_minimal() + 
         theme(
-            axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=14, colour="black"),
-            axis.text.y = element_text(size=14, colour="black"),
-            #panel.background = element_rect(fill='white', colour='black', size=1.0, linetype='solid'),
+            axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=fontsize, colour="black"),
+            axis.text.y = element_text(size=fontsize, colour="black"),
+            panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
             legend.key.width = unit(1.5, "cm"),
-            legend.title=element_text(size=16, face = "bold"),
-            legend.text=element_text(size=14),
+            legend.title=element_text(size=fontsize, face = "bold"),
+            legend.text=element_text(size=fontsize),
             legend.position="top",
             panel.grid.major = element_blank(), #element_line(colour="black"), 
             panel.grid.minor = element_blank(),# = element_line(colour="black"),
