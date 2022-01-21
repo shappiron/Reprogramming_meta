@@ -77,7 +77,7 @@ plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18){
     df$Function <- gsub('Tgf beta signaling', 'TGF beta signaling', df$Function)
     df$Function <- gsub('Tnfa signaling via nfkb', 'TNFA signaling via NFkB', df$Function)
     df$Function <- gsub('Uv response dn', 'UV response down', df$Function)
-    df$Function <- gsub('Kegg complement and coagulation cascades', 'Complement and coagulation cascades (KEGG)', df$Function)
+    df$Function <- gsub('Kegg complement and coagulation cascades', 'Complement and coagulation (KEGG)', df$Function)
     df$Function <- gsub('Reactome base excision repair', 'Base excision repair (Reactome)', df$Function)
     df$Function <- gsub('Gobp atp metabolic process', 'ATP metabolic process (GO:BP)', df$Function)
     df$Function <- gsub('Gobp atp metabolic process', 'ATP metabolic process (GO:BP)', df$Function)
