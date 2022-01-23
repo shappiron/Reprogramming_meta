@@ -26,7 +26,7 @@ plot_gene_effects <- function(gef, top=10, thr=0.05, fontsize=18){
                         panel.grid.major = element_blank(),
                         panel.grid.minor = element_blank(),
                         legend.position = "none",
-                        plot.margin = unit(c(1,2,0,2.0), "cm")) +
+                        plot.margin = unit(c(1,0.5,0,2.0), "cm")) +
                         labs(x = "", y = "Rejuvenation effect decreasing, %")
         return(p)
 }
