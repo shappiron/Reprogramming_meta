@@ -1,5 +1,5 @@
 #plot hallmark ontologies sorted by dendrogram
-plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18){
+plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18, return_table=FALSE){
     tmp <- gsea[[1]]
     #terms_list <- rownames(tmp[grepl("HALLMARK", rownames(tmp)),])
     terms_list <- c('HALLMARK_ANDROGEN_RESPONSE',
@@ -38,25 +38,89 @@ plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18){
                     'GOBP_ATP_METABOLIC_PROCESS',
                     'KEGG_CITRATE_CYCLE_TCA_CYCLE',
                     'GOBP_MITOCHONDRIAL_TRANSLATION',
-                    'KEGG_RIBOSOME'
+                    'KEGG_RIBOSOME',
+                    'REACTOME_MITOCHONDRIAL_BIOGENESIS'
                     )
+    #within-group geometric pvalue
+    SLR <- list()
+    SLI <- list()
+    SLA <- list()
+    cols <- c('pathway', 'pval', 'NES')
 
-    #pos-neg sorting
-    term_sub <- tmp[rownames(tmp) %in% terms_list,]
-    term_pos <- rownames(term_sub[term_sub$NES > 0,])
-    term_neg <- rownames(term_sub[term_sub$NES < 0,])
-    terms_list <- c(term_pos, term_neg)
-
+    for (col in cols){
+        SLR[[col]] <- data.frame(row.names=gsea[['Reprogramming:Mouse']]$pathway)
+        SLI[[col]] <- data.frame(row.names=gsea[['Interventions:Median_lifespan']]$pathway)
+        SLA[[col]] <- data.frame(row.names=gsea[['Aging:Brain']]$pathway)
+        for (name in names(gsea)){
+            tmp <- gsea[[name]][col]
+            rownames(tmp) <- gsea[[name]]$pathway
+            colnames(tmp) <- c(name)
+            if (grepl("Aging", name, fixed=T)){    
+                SLA[[col]] <- transform(merge(SLA[[col]], tmp, 
+                                                    by=0, sort=F,), 
+                                                    row.names=Row.names, Row.names=NULL)
+            }else if (grepl("Interventions", name, fixed=T)){
+                SLI[[col]] <- transform(merge(SLI[[col]], tmp, 
+                                                    by=0, sort=F,), 
+                                                    row.names=Row.names, Row.names=NULL)
+            }else{
+                SLR[[col]] <- transform(merge(SLR[[col]], tmp, 
+                                        by=0, sort=F,), 
+                                        row.names=Row.names, Row.names=NULL) 
+            }
+        }
+    }
+    #
+    slr <- data.frame(apply(SLR[['pval']], 1, function(x) exp(mean(log(x)))))
+    colnames(slr) <- c('P.Value')
+    slr$FDR <- NaN
+    #
+    sli <- data.frame(apply(SLI[['pval']], 1, function(x) exp(mean(log(x)))))
+    colnames(sli) <- c('P.Value')
+    sli$FDR <- NaN
+    #
+    sla <- data.frame(apply(SLA[['pval']], 1, function(x) exp(mean(log(x)))))
+    colnames(sla) <- c('P.Value')
+    sla$FDR <- NaN
+    
+    #select by gmean criterion
     ff <- gsea
     df <- c()
     for (name in names(ff)){
         fgs <- as.data.frame(ff[[name]])
         fgs <- fgs[terms_list,]
-        tmp <- cbind(fgs[c("pathway", "NES", "size", "padj")], rep(name, nrow(fgs)))
+        tmp <- cbind(fgs[c("pathway", "NES", "size", "pval", "padj")], rep(name, nrow(fgs)))
         rownames(tmp) <- NULL
-        colnames(tmp) <- c("Function", "NES", "Size", "P.adj", "Signature")
+        colnames(tmp) <- c("Function", "NES", "Size", "P.val", "P.adj", "Signature")
         df <- rbind(df, tmp)
     }
+
+    slr <- slr[terms_list,]
+    sli <- sli[terms_list,]
+    sla <- sla[terms_list,]
+    
+    slr$FDR <- p.adjust(slr$P.Value, method="BH")
+    sli$FDR <- p.adjust(sli$P.Value, method="BH")
+    sla$FDR <- p.adjust(sla$P.Value, method="BH")
+
+    df <- df[complete.cases(df),]
+    gmean <- function(x) exp(mean(log(x)))
+    passed <- c()
+    for (t in df$Function){
+
+        rp <- slr[t,]$FDR < 0.05
+        ip <- sli[t,]$FDR < 0.05
+        ap <- sla[t,]$FDR < 0.05
+        
+        if (rp  
+            #& any(c(ip, ap))
+            ){
+            passed <- c(passed, t)
+        }
+    }
+    passed <- unique(passed)
+
+    df <- df[df$Function %in% passed,]
 
     #function to first letter up
     firstup <- function(x) {
@@ -84,17 +148,11 @@ plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18){
     df$Function <- gsub('Kegg citrate cycle tca cycle', 'Citrate cycle TCA cycle (KEGG)', df$Function)
     df$Function <- gsub('Gobp mitochondrial translation', 'Mitochondrial translation (GO:BP)', df$Function)
     df$Function <- gsub('Kegg ribosome', 'Ribosome (KEGG)', df$Function)
-
-
-    df <- df[complete.cases(df),]
-    passed <- c()
-    for (t in df$Function){
-        if (any(df[df$Function == t,]$P.adj < 0.05)){
-            passed <- c(passed, t)
-        }
-    }
-    df <- df[df$Function %in% passed,]
     
+    if (return_table == TRUE){
+        return(list('data'=df, 'slr'=slr, 'sli'=sli, 'sla'=sla))
+    }
+
     predist <- reshape2::dcast(data = df, formula = Function~Signature, fun.aggregate = sum, value.var = "NES")
     predist <- as.matrix(predist)
     
