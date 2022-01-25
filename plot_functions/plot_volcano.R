@@ -12,10 +12,10 @@ plot_volcano <- function(db, pluripotency, fdr_thr=0.01,
       db$delabel <- NA
       db$delabel[db$diffexpressed != "No"] <- as.character(db$symbol[db$diffexpressed != "No"])
 
-      db[db$diffexpressed != "No",][pluripotency,]$diffexpressed <- 'Pluri'
+      db[db$diffexpressed != "No",][pluripotency,]$diffexpressed <- 'Pluripotent'
 
       mycolors <- c("blue", "red", "black", 'darkgreen')
-      names(mycolors) <- c("Down", "Up", "No", "Pluri")
+      names(mycolors) <- c("Down", "Up", "No", "Pluripotent")
 
       g <- ggplot(data=db, aes(x=logFC, y=-log10(FDR), col=diffexpressed, label=delabel)) + 
                   geom_point(size=1) + 
@@ -24,7 +24,7 @@ plot_volcano <- function(db, pluripotency, fdr_thr=0.01,
                   geom_vline(xintercept=c(left_thr, right_thr), col="black", size=0.5, linestyle='dashed') +
                   geom_hline(yintercept=-log10(fdr_thr), col="black", size=0.5, linestyle='dashed') + 
                   xlim(xlim[[1]], xlim[[2]]) + 
-                  scale_colour_manual(breaks=c("Down", "Up", "", "Pluri"), values = mycolors) + 
+                  scale_colour_manual(breaks=c("Down", "Up", "", "Pluripotent"), values = mycolors) + 
                   theme(plot.margin = unit(c(0,1,0,1), "cm"),
                         panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
                         panel.grid.major = element_blank(),

@@ -130,7 +130,7 @@ ggheatmap_hallmark <- function(data,
                 scale_y_discrete(position = "right") + 
                 labs(x = "",y = "", title="") +
                 scale_fill_gradient2(name=scale_name, 
-                        high="red2", low="blue2", mid='white', 
+                        high="purple3", low="orange3", mid='white', 
                         limits=c(-1, 1), 
                         midpoint=0)
     

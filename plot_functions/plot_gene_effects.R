@@ -12,10 +12,10 @@ plot_gene_effects <- function(gef, top=10, thr=0.05, fontsize=18){
         sgef$symbol <- factor(sgef$symbol, levels=selected)
 
         p <- ggplot(data=sgef, aes(x=symbol, y=knockout_effect)) +
-                geom_boxplot(aes(fill=symbol), alpha = 0.8, outlier.shape = NA, lwd=1.2) + 
+                geom_boxplot(fill='deepskyblue3', alpha = 0.8, outlier.shape = NA, lwd=1.2) + 
                 #scale_fill_viridis(discrete = TRUE, alpha=0.6, option="H")+
                 #scale_fill_manual(values = cols)+
-                scale_fill_brewer(palette='Purples')+
+                #scale_fill_brewer(palette='Purples')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.8)+
                 geom_point(aes(fill='black'), alpha=0.4, size = 1., position = position_jitterdodge(0.1))+
                 geom_text(data=data.frame(), aes(label=selected_star, x=selected, y=selected_mean), 
