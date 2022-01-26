@@ -52,6 +52,6 @@ plot_dynamics <- function(rep, ultradf, top=5, interval=2, selected_genes=c(), f
             panel.grid.minor = element_blank(),
             legend.position = "none",
             plot.margin = unit(c(1,1,1,0.5), "cm")) + 
-            labs(x = "Time, days", y = "Expression Z-score")
+            labs(x = "Time, days", y = "Normalized expression")
     return(g)
 }

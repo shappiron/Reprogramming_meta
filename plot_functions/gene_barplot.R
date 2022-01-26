@@ -14,6 +14,9 @@ gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
                                                     by=0, sort=F,), 
                                                     row.names=Row.names, Row.names=NULL)
         }
+        colnames(SL[[col]]) <- gsub("_", " ", colnames(SL[[col]]))
+        colnames(SL[[col]]) <- gsub("\\.", ":", colnames(SL[[col]]))
+        colnames(SL[[col]]) <- gsub(" liver", "", colnames(SL[[col]]))
     }
 
     tmpdf <- combined_full_rep[[1]]
@@ -50,7 +53,7 @@ gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
             expand_limits(y=c(-3, 3))+
             geom_text(aes(label=Star, vjust=melter$Vjust, hjust=0.5), fontface='bold', size=7)+
             geom_errorbar(aes(ymin=Coef-SE, ymax=Coef+SE), width=0.18) + 
-            theme(axis.text=element_text(size=fontsize, angle=45, hjust=1),
+            theme(axis.text=element_text(size=fontsize, angle=45, hjust=1, color='black'),
                     strip.background = element_blank(),
                     strip.placement = 'inside',
                     strip.text = element_text(colour = 'black', size=fontsize, face="bold", hjust = 0.5),     
@@ -63,6 +66,7 @@ gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     plot.margin = unit(c(0.5,0.5,0.5,0.), "cm")) +
-            labs(x = "", y = "Normalized meta slope")
+            labs(x = "", y = "Normalized meta slope", fill="")
+            #guides(colour=guide_legend(title=""))
     return(g)
 }                

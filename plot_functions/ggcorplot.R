@@ -24,6 +24,8 @@ ggheatmap <- function(data,
     names(data) <- gsub("\\$", ":", names(data))
     names(data) <- gsub("_", " ", names(data))
     names(data) <- gsub("\\+dox_mef", "", names(data))
+    names(data) <- gsub(" liver", "", names(data))
+    names(data) <- gsub("All", "Global", names(data))
 
     #type = {full_intersection, pairwise_top}
     if (type == 'full_intersection'){
@@ -121,8 +123,9 @@ ggheatmap <- function(data,
                     theme_minimal() + 
                     theme(
                         axis.line = element_line(size = 0),
-                        text = element_text(size = fontsize),
-                        axis.text.x = element_text(angle = 45, hjust = 1, vjust=1),
+                        text = element_text(size = fontsize, color='black'),
+                        axis.text.x = element_text(angle = 45, hjust = 1, vjust=1, color='black'),
+                        axis.text.y = element_text(color='black'),
                         legend.position="top", 
                         legend.key.width = unit(2.5, "cm"),
                         legend.title = element_text(size = fontsize, face='bold'),

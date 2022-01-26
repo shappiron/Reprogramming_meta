@@ -35,6 +35,6 @@ plot_volcano <- function(db, pluripotency, fdr_thr=0.01,
                         legend.title=element_text(size=fontsize, face="bold"),
                         legend.position='top') +
                   labs(x = "Meta-slope value", y = "-log10(adj.P-value)") +
-                  guides(colour=guide_legend(title="Type"))
+                  guides(colour=guide_legend(title=""))
     return(g)
 }
