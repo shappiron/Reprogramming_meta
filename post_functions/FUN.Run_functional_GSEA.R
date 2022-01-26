@@ -18,6 +18,7 @@ Run_functional_GSEA <- function(ranked_list,species="Mus musculus",type="Symbol"
   m_df_kegg = msigdbr(species = species, category = "C2",subcategory = "CP:KEGG")
   m_df_reactome = msigdbr(species = species, category = "C2",subcategory = "CP:REACTOME")
   m_df <- rbind(rbind(m_df_h, m_df_bp,m_df_kegg),m_df_reactome)
+  #m_df <- m_df_h
   
   if (with_MF==T){
     m_df_mf <- msigdbr(species = species, category = "C5",subcategory = "MF")

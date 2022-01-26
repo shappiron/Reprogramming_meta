@@ -20,13 +20,13 @@ plot_gene_effects <- function(gef, top=10, thr=0.05, fontsize=18){
                 geom_point(aes(fill='black'), alpha=0.4, size = 1., position = position_jitterdodge(0.1))+
                 geom_text(data=data.frame(), aes(label=selected_star, x=selected, y=selected_mean), 
                         vjust=-4.0, fontface='bold', size=7, color='black')+
-                theme(  axis.text=element_text(size=fontsize),
+                theme(  axis.text=element_text(size=fontsize, color='black'),
                         axis.title=element_text(size=fontsize, face="bold"),
                         panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
                         panel.grid.major = element_blank(),
                         panel.grid.minor = element_blank(),
                         legend.position = "none",
-                        plot.margin = unit(c(1,0.5,0,2.0), "cm")) +
+                        plot.margin = unit(c(1,0.0,0,0.5), "cm")) +
                         labs(x = "", y = "Rejuvenation effect decreasing, %")
         return(p)
 }
