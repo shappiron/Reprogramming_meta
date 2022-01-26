@@ -139,7 +139,7 @@ ggheatmap <- function(data,
                     xlab("") + 
                     ylab("") + 
                     scale_fill_gradient2(name=scale_name, 
-                            high="purple3", low="orange3", mid='white', 
+                            high="orange3", low="purple3", mid='white', 
                             limits=c(-1, 1), 
                             midpoint=0)
     
