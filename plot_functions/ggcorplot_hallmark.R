@@ -13,13 +13,19 @@
 #' @examples ggheatmap(mtcars)
 #' @importFrom magrittr %>%
 #' @export 
-ggheatmap_hallmark <- function(data, 
+ggheatmap_hallmark <- function(data, gsea,
     type='full_intersection', method='spearman', top=500, pvplot=F,
     label_size=1.2, value_size=0.8, title="Spearman correlation",
     measure="logFC", criterion="FDR",
     orderCol = T, orderRow = T, dendroLineSize = 0.5, fontsize=18,
     color = "Spectral", scaleName = "value", distMethod = "euclidean", 
     clustMethod = "complete", revColors=F, scale_name="Spearman \ncorrelation ") {
+    
+    # names(data) <- gsub("\\$", ":", names(data))
+    # names(data) <- gsub("_", " ", names(data))
+    # names(data) <- gsub("\\+dox_mef", "", names(data))
+    # names(data) <- gsub(" liver", "", names(data))
+    # names(data) <- gsub("All", "Global", names(data))
     
     #type = {full_intersection, pairwise_top}
     if (type == 'full_intersection'){
@@ -69,6 +75,7 @@ ggheatmap_hallmark <- function(data,
             }
         }
         cm <- round(cm, 2)
+
         rownames(cm) <- names(data) 
         colnames(cm) <- names(data)
         rownames(pm) <- names(data) 

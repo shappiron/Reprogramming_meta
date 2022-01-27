@@ -168,6 +168,12 @@ plot_hallmark <- function(gsea, orderRow=TRUE, col_order=c(), fontsize=18, retur
         }
     }
 
+    # df$Signature <- gsub("\\$", ":", df$Signature)
+    # df$Signature <- gsub("_", " ", df$Signature)
+    # df$Signature <- gsub("\\+dox_mef", "", df$Signature)
+    # df$Signature <- gsub(" liver", "", df$Signature)
+    # df$Signature <- gsub("All", "Global", df$Signature)
+
     g <- ggplot(df, aes(x=Signature, y=Function, fill=NES)) + 
         geom_tile(colour = "black",size=0.1)+
         scale_fill_gradient2(high="red3",low="blue3",

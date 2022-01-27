@@ -19,6 +19,6 @@ plot_group_effects <- function(gref, fontsize=18){
                         panel.grid.minor = element_blank(),
                         legend.position = "none",
                         plot.margin = unit(c(1,1.5,0,0.5), "cm")) +
-                labs(x = "", y = "Rejuvenation effect decreasing, %")
+                labs(x = "", y = "Rejuvenation effect, %")
         return(p)
 }

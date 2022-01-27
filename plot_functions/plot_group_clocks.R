@@ -24,13 +24,21 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
 	#add stars
 	treats <- unique(clockm$Treatment)
 	clockm$star <- NaN
+        #v <- c()
 	for (t in treats){
 		tsub <- clockm[clockm$Treatment == t,]
 		test <- lm(AgeNorm~Time, data=tsub)
 		pval <- summary(test)$coefficients['Time', 'Pr(>|t|)']
+                #cat(t, pval, '\n')
 		star <- plab(pval)
 		clockm[clockm$Treatment == t,]$star <- star
+                
+                # if (pval < 0.05){
+                #         cat(t, '\n')
+                #         v<-c(v,last(tsub$AgeNorm))
+                # }
 	}
+        #return(v)
 	clockm$TreatmentStar <- paste0(clockm$Treatment, ' ', clockm$star)
 
 	##Human
