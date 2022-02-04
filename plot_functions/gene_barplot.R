@@ -65,7 +65,7 @@ gene_barplot <- function(combined_full_rep, gene_interest, fontsize=18){
                     panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
-                    plot.margin = unit(c(0.5,0.5,0.5,0.), "cm")) +
+                    plot.margin = unit(c(0.5,0.5,0.,1.5), "cm")) +
             labs(x = "", y = "Normalized meta slope", fill="")
             #guides(colour=guide_legend(title=""))
     return(g)

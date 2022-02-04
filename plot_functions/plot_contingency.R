@@ -93,19 +93,20 @@ plot_contingency <- function(combined_full_rep, suf1='Interventions', suf2='Repr
     g <- ggplot(data, aes(x=data[[suf1]], y=data[[suf2]], fill=OE)) + 
             geom_tile(colour = "black", size=0.0) + 
             scale_x_discrete(expand=c(0,0)) + scale_y_discrete(expand=c(0,0)) + 
-            geom_text(data=data, aes(label=value), size=10, col=textcol) + 
+            geom_text(data=data, aes(label=value), size=8, col=textcol) + 
             labs(tag = paste0("P-value=", pval), x=suf1, y=suf2) +
             scale_fill_gradient2(high="red2", low="blue2", mid='white', limits=lims, midpoint=avgdata)+
             guides(fill=guide_colorbar(title.position = "top", title='#Observed - #Expected')) + 
-            theme(legend.position = "top", legend.key.width = unit(1.8, "cm"),
+            theme(legend.position = "top", 
+                    legend.key.width = unit(1.5, "cm"),
                     axis.text=element_text(size=fontsize), 
                     axis.title=element_text(size=fontsize, face="bold"),
                     legend.text=element_text(size=fontsize), 
                     legend.title=element_text(size=fontsize, face="bold"), 
                     legend.title.align=0.5,
                     panel.background = element_rect(fill='white', colour='black', size=1.5, linetype='solid'),
-                    plot.tag.position = c(0.10, 0.02), 
+                    plot.tag.position = c(0.02, 0.02), 
                     plot.tag = element_text(size=fontsize),
-                    plot.margin = unit(c(0.,2.5, 1.5, 2.5), "cm")) 
+                    plot.margin = unit(c(0.,2.0, 0.5, 2.0), "cm")) 
     return(g)
 }    

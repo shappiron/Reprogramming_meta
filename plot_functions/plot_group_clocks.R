@@ -60,9 +60,9 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
     
     #plot
     dataYF <- clockm[clockm$RepFactors == 'YF',]
-    g1 <- ggplot(dataYF, aes(x=Time, y=AgeNorm, col=TreatmentStar)) + 
-                geom_point()+
-                geom_smooth(method=lm, se=F, size=0.5)+
+    g1 <- ggplot(dataYF, aes(x=Time, y=AgeNorm)) + 
+                geom_point(aes(fill=TreatmentStar), size=3.5, shape=21, colour='black')+
+                geom_smooth(aes(col=TreatmentStar), method=lm, se=F, size=0.7)+
                 ggtitle('Yamanaka Factors')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.4)+
                 theme(  plot.title = element_text(size = fontsize, face = "bold"),
@@ -74,16 +74,16 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         legend.position='bottom',
                         legend.text=element_text(size=fontsize),
                         legend.title=element_text(size=fontsize, face='bold'),
-                        plot.margin = unit(c(0,3,0,0.5), "cm"),
-                        aspect.ratio=1) +
+                        plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
+                        ) +
                         labs(x = "Time, days", y = "tAge, relative age", color='Treatment')+
-                        guides(color = guide_legend(nrow = 5))
+                        guides(color = guide_legend(nrow = 4), fill=FALSE)
                         
 
     data7F <- clockm[clockm$RepFactors == '7F',]
-    g2 <- ggplot(data7F, aes(x=Time, y=AgeNorm, col=TreatmentStar)) + 
-                geom_point()+
-                geom_smooth(method=lm, se=F, size=0.5)+
+    g2 <- ggplot(data7F, aes(x=Time, y=AgeNorm)) + 
+                geom_point(aes(fill=TreatmentStar), size=3.5, shape=21, colour='black')+
+                geom_smooth(aes(col=TreatmentStar), method=lm, se=F, size=0.7)+
                 ggtitle('7 Factors (GSE127927)')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.4)+
                 theme(  plot.title = element_text(size = fontsize, face = "bold"),
@@ -95,16 +95,16 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         legend.position='bottom',
                         legend.text=element_text(size=fontsize),
                         legend.title=element_text(size=fontsize, face='bold'),
-                        plot.margin = unit(c(0,3,0,0.5), "cm"),
-                        aspect.ratio=1) +
+                        plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
+                        ) +
                         labs(x = "Time, days", y = "tAge, relative age", color='Treatment')+
-                        guides(color = guide_legend(nrow = 3))
+                        guides(color = guide_legend(nrow = 2), fill=FALSE)
 
 
     dataH <- clockh
-    g3 <- ggplot(dataH, aes(x=Time, y=AgeNorm, col=TissueStar)) + 
-                geom_point()+
-                geom_smooth(method=lm, se=F, size=0.5)+
+    g3 <- ggplot(dataH, aes(x=Time, y=AgeNorm)) + 
+                geom_point(aes(fill=TissueStar), size=3.5, shape=21, colour='black')+
+                geom_smooth(aes(col=TissueStar), method=lm, se=F, size=0.7)+
                 ggtitle('Human OSKM')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.4)+
                 theme(  plot.title = element_text(size = fontsize, face = "bold"),
@@ -116,12 +116,10 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         legend.position='bottom',
                         legend.text=element_text(size=fontsize),
                         legend.title=element_text(size=fontsize, face='bold'),
-                        plot.margin = unit(c(0,3,0,0.5), "cm"),
-                        aspect.ratio=1) +
-                        labs(x = "Time, days", y = "tAge, relative age", color='Tissue')
+                        plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
+                        ) +
+                        labs(x = "Time, days", y = "tAge, relative age", color='Tissue')+
+                        guides(color = guide_legend(nrow = 2), fill=FALSE)
                     
-
-    G <- cowplot::plot_grid(g1, g2, g3, labels=c("C", "", 'D'), label_size = 32, ncol=1, align='v', 
-                            rel_heights = c(3, 3, 3))
-    return(G)
+    return(list("B"=g1, "C"=g2, "D"=g3))
 }

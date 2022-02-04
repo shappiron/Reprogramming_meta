@@ -44,7 +44,7 @@ plot_all_clocks <- function(clockm, clockh, fontsize=18){
             geom_point(aes(fill=Tissue), size=2.5, shape = 21, colour = "black")+
             #geom_point(shape = 1,size = 2.,colour = "black")+
             geom_hline(yintercept=0, linetype="solid", color = "black", size=0.2, alpha=0.2)+
-            facet_wrap(~ID, ncol=6, dir="h") +
+            facet_wrap(~Dataset, ncol=6, dir="h") +
             theme(  axis.text=element_text(size=fontsize),
                 axis.title=element_text(size=fontsize, face="bold"),
                 legend.title=element_text(size=fontsize, face="bold"),
