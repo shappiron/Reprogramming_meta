@@ -38,9 +38,9 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                 #         v<-c(v,last(tsub$AgeNorm))
                 # }
 	}
-        #return(v)
-	clockm$TreatmentStar <- paste0(clockm$Treatment, ' ', clockm$star)
 
+	clockm$TreatmentStar <- paste0(clockm$Treatment, ' ', clockm$star)
+        
 	##Human
 	#clockh$Pseudotime <- clockh$Time %/% 2 * 2
 	clockh$Tissue <- factor(clockh$Tissue, levels=sort(as.vector(unique(clockh$Tissue)), decreasing=T))
@@ -63,7 +63,7 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
     g1 <- ggplot(dataYF, aes(x=Time, y=AgeNorm)) + 
                 geom_point(aes(fill=TreatmentStar), size=3.5, shape=21, colour='black')+
                 geom_smooth(aes(col=TreatmentStar), method=lm, se=F, size=0.7)+
-                ggtitle('Yamanaka Factors')+
+                ggtitle('Mouse Yamanaka Factors')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.4)+
                 theme(  plot.title = element_text(size = fontsize, face = "bold"),
                         axis.text=element_text(size=fontsize),
@@ -77,14 +77,14 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
                         ) +
                         labs(x = "Time, days", y = "tAge, relative age", color='Treatment')+
-                        guides(color = guide_legend(nrow = 4), fill=FALSE)
+                        guides(color = guide_legend(nrow = 4, override.aes = list(size = 2)), fill=FALSE)
                         
 
     data7F <- clockm[clockm$RepFactors == '7F',]
     g2 <- ggplot(data7F, aes(x=Time, y=AgeNorm)) + 
                 geom_point(aes(fill=TreatmentStar), size=3.5, shape=21, colour='black')+
                 geom_smooth(aes(col=TreatmentStar), method=lm, se=F, size=0.7)+
-                ggtitle('7 Factors (GSE127927)')+
+                ggtitle('Mouse 7 Factors (GSE127927)')+
                 geom_hline(yintercept=0, linetype="dashed", color = "black", size=0.4, alpha=0.4)+
                 theme(  plot.title = element_text(size = fontsize, face = "bold"),
                         axis.text=element_text(size=fontsize),
@@ -98,7 +98,7 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
                         ) +
                         labs(x = "Time, days", y = "tAge, relative age", color='Treatment')+
-                        guides(color = guide_legend(nrow = 2), fill=FALSE)
+                        guides(color = guide_legend(nrow = 2, override.aes = list(size = 2)), fill=FALSE)
 
 
     dataH <- clockh
@@ -119,7 +119,7 @@ plot_group_clocks <- function(clockm, clockh, fontsize=18){
                         plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
                         ) +
                         labs(x = "Time, days", y = "tAge, relative age", color='Tissue')+
-                        guides(color = guide_legend(nrow = 2), fill=FALSE)
+                        guides(color = guide_legend(nrow = 2, override.aes = list(size = 2)), fill=FALSE)
                     
     return(list("B"=g1, "C"=g2, "D"=g3))
 }
