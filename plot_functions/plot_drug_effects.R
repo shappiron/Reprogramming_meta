@@ -21,7 +21,7 @@ labeller <- c(
   'cp'="Chemical compound",
   'oe'="Overexpression",
   'xpr'="CRISPR knock-out",
-  'sh'="shRNA knock-out"
+  'sh'="shRNA knock-down"
 )
 
 top <- ggplot(df, aes(x=OLS_intercept, y=drug))+#color=scores, shape=coincide) ) + 
@@ -31,7 +31,8 @@ top <- ggplot(df, aes(x=OLS_intercept, y=drug))+#color=scores, shape=coincide) )
                 facet_wrap(~pert_type, ncol=2, dir="v", scales='free_y', labeller=as_labeller(labeller)) +
                 scale_shape_manual(values=c(23, 21))+
                 scale_fill_gradient2(high="red2", low="blue2", mid='grey', 
-                                limits=c(-4, 4), midpoint=0, oob = scales::squish)+
+                                limits=c(-4, 4), midpoint=0, oob = scales::squish,
+                                guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"))+
                 theme(  axis.text=element_text(size=fontsize, color='black'),
                         axis.title=element_text(size=fontsize, face="bold"),
                         strip.background = element_blank(),
@@ -44,7 +45,7 @@ top <- ggplot(df, aes(x=OLS_intercept, y=drug))+#color=scores, shape=coincide) )
                         #panel.grid.minor = element_blank(),
                         plot.margin = unit(c(1,1,1,0.5), "cm")) + 
                         labs(x = "Relative age change (Treatment coefficient in model)", 
-                             y = "", shape='Coincide', fill='Significance \nscore')
+                             y = "", shape='CMAP prediction \nsupported by tClock', fill='Significance \nscore')
   return(top)
 ##############   
 }

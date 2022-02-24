@@ -139,6 +139,7 @@ ggheatmap <- function(data,
                     xlab("") + 
                     ylab("") + 
                     scale_fill_gradient2(name=scale_name, 
+                            guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"),
                             high="orange3", low="purple3", mid='white', 
                             limits=c(-1, 1), 
                             midpoint=0)

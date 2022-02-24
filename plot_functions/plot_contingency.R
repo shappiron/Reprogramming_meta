@@ -95,8 +95,10 @@ plot_contingency <- function(combined_full_rep, suf1='Interventions', suf2='Repr
             scale_x_discrete(expand=c(0,0)) + scale_y_discrete(expand=c(0,0)) + 
             geom_text(data=data, aes(label=value), size=8, col=textcol) + 
             labs(tag = paste0("P-value=", pval), x=suf1, y=suf2) +
-            scale_fill_gradient2(high="red2", low="blue2", mid='white', limits=lims, midpoint=avgdata)+
-            guides(fill=guide_colorbar(title.position = "top", title='#Observed - #Expected')) + 
+            scale_fill_gradient2(high="red2", low="blue2", mid='white', limits=lims, midpoint=avgdata,
+                                 guide = guide_colorbar(frame.colour = "black", ticks.colour = "black"))+
+            guides(fill=guide_colorbar(title.position = "top", title='#Observed - #Expected',
+                    frame.colour = "black", ticks.colour = "black")) + 
             theme(legend.position = "top", 
                     legend.key.width = unit(1.5, "cm"),
                     axis.text=element_text(size=fontsize), 
