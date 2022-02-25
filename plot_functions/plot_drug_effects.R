@@ -12,6 +12,7 @@ df$drug <- gsub('_', ' ', df$drug)
 df$drug <- gsub('  ', ' ', df$drug)
 df$drug <- factor(df$drug, levels = df[order(abs(df$OLS_pvalue), decreasing=T),]$drug)
 
+
 df <- rbind(df[df$pert_type == 'cp',][1:top,], 
             df[df$pert_type == 'oe',][1:top,],
             df[df$pert_type == 'xpr',][1:top,],
@@ -24,8 +25,8 @@ labeller <- c(
   'sh'="shRNA knock-down"
 )
 
-top <- ggplot(df, aes(x=OLS_intercept, y=drug))+#color=scores, shape=coincide) ) + 
-                geom_point(aes(shape=coincide, fill=scores), colour="black", size=4) + 
+top <- ggplot(df, aes(x=OLS_intercept, y=drug))+ #color=scores, shape=coincide) ) + 
+                geom_point(aes(shape=coincide, fill=scores), colour="black", size=6) + 
                 geom_errorbarh(aes(xmax = CI_high, xmin = CI_low),  height = 0.)+
                 geom_vline(xintercept=0, linetype="dashed", color = "black", size=0.5, alpha=0.5)+
                 facet_wrap(~pert_type, ncol=2, dir="v", scales='free_y', labeller=as_labeller(labeller)) +
@@ -45,7 +46,7 @@ top <- ggplot(df, aes(x=OLS_intercept, y=drug))+#color=scores, shape=coincide) )
                         #panel.grid.minor = element_blank(),
                         plot.margin = unit(c(1,1,1,0.5), "cm")) + 
                         labs(x = "Relative age change (Treatment coefficient in model)", 
-                             y = "", shape='CMAP prediction \nsupported by tClock', fill='Significance \nscore')
+                             y = "", shape='Connectivity score sign', fill='Significance \nscore')
   return(top)
 ##############   
 }
